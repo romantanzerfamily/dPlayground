@@ -1,14 +1,14 @@
 import './App.css';
-import motokoLogo from './assets/motoko_moving.png';
-import motokoShadowLogo from './assets/motoko_shadow.png';
-import reactLogo from './assets/react.svg';
-import viteLogo from './assets/vite.svg';
+import Note from './Note';
 import startpic from './assets/roman-bella-strand.jpg';
 import { useQueryCall, useUpdateCall } from '@ic-reactor/react';
 
 function App() {
   const { data: count, call: refetchCount } = useQueryCall({
     functionName: 'get',
+  });
+  const { data: myNote, call: refetchNote } = useQueryCall({
+    functionName: 'getNote',
   });
 
   const { call: increment, loading } = useUpdateCall({
@@ -24,13 +24,14 @@ function App() {
         <img src={startpic} className="logo startpic" alt="startpage logo" />
       </header>
       <h1>Roman's Virtual Home</h1>
+      <Note
+        author={myNote.author?.toString() ?? 'loading...'}
+        title={myNote.title?.toString() ?? 'loading...'}
+        text={myNote.text?.toString() ?? 'loading...'} />
       <div className="card">
         <button onClick={increment} disabled={loading}>
           count is {count?.toString() ?? 'loading...'}
         </button>
-        <p>
-          Edit <code>backend/Backend.mo</code> and save to test HMR
-        </p>
       </div>
 
     </div>
